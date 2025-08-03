@@ -224,34 +224,9 @@ class OpenAIHandler:
         return sender_domain in self.allowed_domains
     
     def generate_draft_response(self, email: Email) -> Optional[str]:
-        """Generate a draft response using OpenAI with training system."""
+        """Generate a draft response using OpenAI."""
         try:
             days_old = (datetime.now() - email.received_date).days
-            
-            # Try to use training system if available
-            try:
-                from training_system import TrainingSystem
-                training_system = TrainingSystem()
-                
-                # Analyze email type
-                email_type = training_system.analyze_email_type(email.body)
-                
-                # Generate customized response
-                draft_response = training_system.generate_customized_response(
-                    email.body,
-                    email_type,
-                    "professional",  # Default tone
-                    days_old
-                )
-                
-                if draft_response:
-                    logger.info(f"Generated customized response for {days_old}-day-old {email_type} email: {email.subject}")
-                    return draft_response
-                    
-            except ImportError:
-                logger.info("Training system not available, using default response generation")
-            except Exception as e:
-                logger.warning(f"Training system failed, falling back to default: {e}")
             
             # Fallback to default response generation
             if days_old == 0:
