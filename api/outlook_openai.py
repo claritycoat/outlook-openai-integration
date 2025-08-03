@@ -10,7 +10,6 @@ import logging
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 from dataclasses import dataclass
-from http.server import BaseHTTPRequestHandler
 import requests
 import msal
 from openai import OpenAI
@@ -402,41 +401,22 @@ class OutlookOpenAIIntegration:
 # Global integration instance
 integration = OutlookOpenAIIntegration()
 
-class RequestHandler(BaseHTTPRequestHandler):
-    """HTTP request handler for Vercel serverless function."""
-    
-    def do_GET(self):
-        """Handle GET requests (for testing)."""
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        
-        result = integration.process_emails()
-        self.wfile.write(json.dumps(result, default=str).encode())
-    
-    def do_POST(self):
-        """Handle POST requests (for cron jobs)."""
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        
-        result = integration.process_emails()
-        self.wfile.write(json.dumps(result, default=str).encode())
-
 # Vercel serverless function entry point
 def handler(request, context):
     """Main handler for Vercel serverless function."""
-    if request.method == 'GET':
+    try:
         result = integration.process_emails()
         return {
             'statusCode': 200,
             'headers': {'Content-Type': 'application/json'},
             'body': json.dumps(result, default=str)
         }
-    else:
-        result = integration.process_emails()
+    except Exception as e:
         return {
-            'statusCode': 200,
+            'statusCode': 500,
             'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps(result, default=str)
+            'body': json.dumps({
+                'error': str(e),
+                'type': type(e).__name__
+            })
         } 
