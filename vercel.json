@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/outlook_openai.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/outlook_openai",
+      "dest": "/api/outlook_openai.py"
+    }
+  ],
+  "functions": {
+    "api/outlook_openai.py": {
+      "maxDuration": 300
+    }
+  }
+} 

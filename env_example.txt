@@ -1,0 +1,16 @@
+# Microsoft Graph API Configuration
+CLIENT_ID=your_azure_app_client_id
+CLIENT_SECRET=your_azure_app_client_secret
+TENANT_ID=your_tenant_id
+
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key
+
+# Email Processing Configuration
+EMAIL_FOLDER=Inbox
+PROCESSED_FOLDER=Drafts
+SCAN_INTERVAL_MINUTES=15
+MAX_EMAILS_PER_SCAN=10
+
+# Optional: Filter emails by sender domain
+ALLOWED_DOMAINS=example.com,company.com 
