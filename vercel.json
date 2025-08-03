@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/outlook_openai.py",
+      "src": "api/email_processor.py",
       "use": "@vercel/python"
     },
     {
@@ -16,8 +16,8 @@
   ],
   "routes": [
     {
-      "src": "/api/outlook_openai",
-      "dest": "/api/outlook_openai.py"
+      "src": "/api/email_processor",
+      "dest": "/api/email_processor.py"
     },
     {
       "src": "/api/test",
