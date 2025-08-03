@@ -11,10 +11,5 @@
       "src": "/api/outlook_openai",
       "dest": "/api/outlook_openai.py"
     }
-  ],
-  "functions": {
-    "api/outlook_openai.py": {
-      "maxDuration": 300
-    }
-  }
+  ]
 } 
