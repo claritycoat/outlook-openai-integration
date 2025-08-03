@@ -4,12 +4,20 @@
     {
       "src": "api/outlook_openai.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "api/test.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/api/outlook_openai",
       "dest": "/api/outlook_openai.py"
+    },
+    {
+      "src": "/api/test",
+      "dest": "/api/test.py"
     }
   ]
 } 
