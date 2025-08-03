@@ -31,6 +31,6 @@ jobs:
         TENANT_ID: ${{ secrets.TENANT_ID }}
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         DAYS_THRESHOLD: ${{ secrets.DAYS_THRESHOLD }}
-        ALLOWED_DOMAINS: ${{ secrets.ALLOWED_DOMAINS }}
+        ALLOWED_DOMAINS: ${{ secrets.ALLOWED_DOMAINS || '' }}
       run: |
         python outlook_openai_integration.py 
