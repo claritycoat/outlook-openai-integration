@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple test function to debug deployment issues
+Simple test endpoint for Vercel
 """
 
 import os
@@ -11,27 +11,30 @@ def handler(request, context):
     try:
         # Check environment variables
         env_vars = {
-            "CLIENT_ID": os.getenv('CLIENT_ID', 'NOT_SET'),
-            "CLIENT_SECRET": os.getenv('CLIENT_SECRET', 'NOT_SET'),
-            "TENANT_ID": os.getenv('TENANT_ID', 'NOT_SET'),
-            "OPENAI_API_KEY": os.getenv('OPENAI_API_KEY', 'NOT_SET'),
-            "DAYS_THRESHOLD": os.getenv('DAYS_THRESHOLD', 'NOT_SET'),
+            'CLIENT_ID': os.getenv('CLIENT_ID'),
+            'CLIENT_SECRET': os.getenv('CLIENT_SECRET'),
+            'TENANT_ID': os.getenv('TENANT_ID'),
+            'OPENAI_API_KEY': os.getenv('OPENAI_API_KEY'),
+            'DAYS_THRESHOLD': os.getenv('DAYS_THRESHOLD'),
+            'ALLOWED_DOMAINS': os.getenv('ALLOWED_DOMAINS')
         }
         
-        # Check if any are missing
-        missing_vars = [k for k, v in env_vars.items() if v == 'NOT_SET']
+        # Check which variables are missing
+        missing_vars = [key for key, value in env_vars.items() if not value]
         
         return {
             'statusCode': 200,
             'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({
-                'message': 'Test function working',
-                'environment_variables': env_vars,
-                'missing_variables': missing_vars,
-                'python_version': os.sys.version
+                'message': 'Test endpoint working',
+                'environment_variables': {
+                    'present': [key for key, value in env_vars.items() if value],
+                    'missing': missing_vars
+                },
+                'total_vars': len(env_vars),
+                'present_count': len([v for v in env_vars.values() if v])
             })
         }
-        
     except Exception as e:
         return {
             'statusCode': 500,
